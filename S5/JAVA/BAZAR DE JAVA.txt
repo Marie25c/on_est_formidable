@@ -1,0 +1,24 @@
+BAZAR DE JAVA
+--------------
+
+~ GitLab du cours ~
+https://stl.algo-prog.info/
+
+Cour 1 :
+--------
+
+~ Objet ~
+> Attributs
+> Methodes
+
+Compilation -> Type, Syntaxe, Structure
+Exécution -> Création et verification des Objets
+ClassPath -> Répertoire de Recherche des .class
+
+Aliasing -> Copie de référence
+== -> teste l'égalité des référence
+
+Objets immuables :
+* static
+* 
+
