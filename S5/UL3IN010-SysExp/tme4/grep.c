@@ -66,7 +66,7 @@ int main(int argc,const char* argv[]){
                     printf(" Erreur dans la liste de fichier \n");
                     return 1;
                 }*/
-                execl("/bin/grep", "grep", motif, argv[cpt], (char *)NULL);
+                execl("/bin/grep", "grep", motif, argv[cpt], NULL);
                 exit(0); // Fin processus fils
             }
             else{

@@ -67,7 +67,7 @@ int main(int argc,const char* argv[]){
             if( pid == 0){ // Processus fils
                 printf("id_fils = %d ", getpid() );
                 //grep(argv[cpt],motif);
-                execl("/bin/grep", "grep", motif, argv[cpt], (char *)NULL);
+                execl("/bin/grep", "grep", motif, argv[cpt], NULL);
                 exit(0);
 
             }
