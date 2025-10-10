@@ -1,0 +1,17 @@
+.data
+
+.text 
+	
+	addi $8, $0, 137
+    move $4, $8
+	syscall
+
+AJOUT DE 137 à registre 8 -> 
+
+addi $8, $0, 137
+
+
+
+AFFICHAGE EN DECIMAL -> 
+
+
