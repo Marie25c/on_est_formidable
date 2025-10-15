@@ -37,20 +37,22 @@ int commande(void){
 
     // ------------------
 
-    token = strtok(commande,sep);
-    char *args[MAX_ARGS];
-    int j=0;
-    while(token != NULL){
-        args[j]=token;
-        token = strtok(NULL, sep);
-        j++;
-    }
-
-    args[MAX_ARGS-1]=NULL;
 
     if(strcmp(commande,"quit")==0) return 0;
 
     else{
+
+        token = strtok(commande,sep);
+        char *args[MAX_ARGS];
+        int j=0;
+        while(token != NULL){
+            args[j]=strdup(token);
+            printf("tok%s\n",token);
+            token = strtok(NULL, sep);
+            j++;
+        }
+        
+        args[MAX_ARGS-1]=NULL;
 
         pid_t p = fork();
 
@@ -72,6 +74,13 @@ int commande(void){
             printf(" Temps U : %f\n", r.ru_utime.tv_sec+1E-6*r.ru_utime.tv_usec);
             printf(" Temps S : %f\n", r.ru_stime.tv_sec+1E-6*r.ru_stime.tv_usec);
         }
+
+        /*
+        for(int k=0;k<MAX_ARGS;k++){
+            if( args[k] != NULL ) free(args[k]);
+        }
+        */
+        
 
         return 1;
     }
