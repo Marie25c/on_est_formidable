@@ -2,7 +2,7 @@
 
     .align 0
 
-chaine: .space 11          # 10 chiffres + '\0'
+chaine: .space 11          # 10 chiffres + fin de chaîne
 
 
 
@@ -10,43 +10,43 @@ chaine: .space 11          # 10 chiffres + '\0'
 
 
 
-    lui $8, 0x1001          # $8 = 0x10010000
+    lui $8, 0x1001          # $8 = partie haute de l’adresse de chaine
 
-    ori $9, $8, 0           # $9 = adresse de chaine
-
-
-
-    addiu $29, $29, -16     # alloue 16 octets sur la pile
+    ori $9, $8, 0           # $9 = adresse complète de chaine
 
 
 
-    ori $2, $0, 5           # syscall 5 : lire un entier
+    addiu $29, $29, -16     # allocation pile (16 octets)
+
+
+
+    ori $2, $0, 5           # syscall 5 : lecture d’un entier
 
     syscall
 
-    sw $2, 0($29)           # pile[0] = nb
+    sw $2, 0($29)           # nb → pile[0]
 
 
 
-    sb $0, 10($9)           # chaine[10] = '\0'
+    sb $0, 10($9)           # fin de chaîne à l’indice 10
 
 
 
     ori $10, $0, 9          # i = 9
 
-    sw $10, 4($29)          # pile[4] = i
+    sw $10, 4($29)          # pile[4]
 
 
 
     ori $11, $0, 0          # r = 0
 
-    sw $11, 8($29)          # pile[8] = r
+    sw $11, 8($29)          # pile[8]
 
 
 
     addiu $15, $0, -1       # seuil = -1
 
-    sw $15, 12($29)         # pile[12] = seuil
+    sw $15, 12($29)         # pile[12]
 
 
 
@@ -88,7 +88,7 @@ for:
 
     addi $11, $11, 0x30     # conversion ASCII
 
-    sb $11, 0($13)          # chaine[i] = ASCII
+    sb $11, 0($13)          # stockage caractère
 
 
 
@@ -102,7 +102,7 @@ for:
 
 fin_for:
 
-    addiu $29, $29, 16      # libère la pile
+    addiu $29, $29, 16      # libération pile
 
 
 

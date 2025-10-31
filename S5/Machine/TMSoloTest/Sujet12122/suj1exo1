@@ -1,0 +1,33 @@
+.data 
+	
+	.align 2
+num_ch : .space 1
+
+	.align 2
+tab_chiffre : .space 20
+	
+.text
+
+	addiu $29, $29, -16 
+	
+main :
+
+	ori $2, $0, 5
+	syscall
+	sw $2, 0($29)  #user_name -> 0($29)
+	
+	lui $8, 0x1001
+	
+occ_num_chiffre :
+	
+	lw $9, 0($29) # q = user_name
+	ori $10, $0, 1 # nb_c = 1
+	
+loop : 
+	sltiu $11, $9, 10
+	bne $11, $0, end
+	
+	
+end :
+
+	
