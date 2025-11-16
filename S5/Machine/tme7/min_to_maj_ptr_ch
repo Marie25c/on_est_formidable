@@ -1,0 +1,99 @@
+.data
+
+ch : .asciiz "1 exemple d'exemple \n" # @ = 10010000
+	.align 2
+c : .space 4 # @ = 10010000 + 22 + 2 = 10010018
+
+
+.text
+
+main :
+	
+	# on met i dans la pile
+	addiu $29, $29, -4  
+	
+	# i = 0
+	sw $0, 0($29)
+	
+	# print ch[i]
+	lui $8, 0x1001
+	or $4, $0, $8
+	ori $2, $0, 4
+	syscall
+	
+while :
+	# récupére indice i
+	lw $9, 0($29)
+	
+	# ch[i]
+	lui $8, 0x1001
+	addu $8, $8, $9
+	lb $10, 0($8)
+	
+	# ch[i] =? 0x00
+	beq $10, $0, fin_while
+	
+	# *c = @ch[i]
+	lui $11, 0x1001
+	addiu $11, $11, 0x18
+	sw $8,0($11)
+	
+	# saut dans min_to_maj_ptr_char
+	jal min_to_maj_ptr_char
+	
+	# i = i + 1
+	lw $9, 0($29)
+	addiu $9, $9, 1
+	sw $9, 0($29)
+	
+	j while
+	
+fin_while :
+
+	# print ch[i]
+	lui $8, 0x1001
+	or $4, $0, $8
+	ori $2, $0, 4
+	syscall
+
+	addiu $29, $29, 4
+	
+	ori $2, $0, 10 # EXIT
+	syscall
+
+min_to_maj_ptr_char :
+	
+	addiu $29, $29, -4
+	sw $31, 0($29)
+
+	# on récupère *c
+	# récupère adresse du pointeur
+	lui $11, 0x1001
+	addiu $11, $11, 0x18
+	lw $8, 0($11)
+	# récupère contenu du pointeur
+	lbu $12, 0($8)
+	
+	ori $9, $0, 0x61 # $9 = a
+	ori $10, $0, 0x7A # $10 = z
+	
+	# (*c >= ’a’ && *c <= ’z’) => (ch[i] < a = 0 and z < ch[i ] = 0)
+	slt $13, $12, $9
+	bne $13, $0, fin_fct
+	slt $13, $10, $12
+	bne $13, $0, fin_fct
+	
+	# *c = *c - 0x20
+	subiu  $12, $12, 0x20
+	sb $12, 0($8)
+	
+fin_fct : 
+	
+	lw $31, 0($29)
+	addiu $29, $29, 4
+	jr $31
+	
+	
+	
+
+	
